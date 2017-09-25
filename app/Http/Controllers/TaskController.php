@@ -1,19 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Repositories\TasksRepositories;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
 class TaskController extends Controller {
+    protected $tasks;
 
     /**
      * Создание нового экземпляра контроллера.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct(askRepository $tasks) {
         $this->middleware('auth');
+        $this->tasks=$tasks;
     }
 
     /**
@@ -23,7 +25,10 @@ class TaskController extends Controller {
      * @return Response
      */
     public function index(Request $request) {
-        return view('tasks.index');
+        $tasks = $request->user()->tasks()->get();
+        return view('tasks.index',[
+            'tasks'=>$tasks,
+            ]);
     }
 
     /**
@@ -37,7 +42,11 @@ class TaskController extends Controller {
             'name' => 'required|max:255',
         ]);
 
-        // Создание задачи...
+        $request->user()->tasks()->create([
+            'name' => $request->name,
+        ]);
+
+        return redirect('/tasks');
     }
 
 }
