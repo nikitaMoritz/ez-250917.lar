@@ -17,4 +17,14 @@ class TaskController extends Controller
   {
     $this->middleware('auth');
   }
+  /**
+ * Отображение списка всех задач пользователя.
+ *
+ * @param  Request  $request
+ * @return Response
+ */
+public function index(Request $request)
+{
+  return view('tasks.index');
+}
 }
