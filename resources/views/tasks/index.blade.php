@@ -31,11 +31,7 @@
     </form>
   </div>
 
-  <!-- TODO: Текущие задачи -->@extends('layouts.app')
-
-@section('content')
-  <!-- Форма создания задачи... -->
-
+  
   <!-- Текущие задачи -->
   @if (count($tasks) > 0)
     <div class="panel panel-default">
@@ -71,5 +67,5 @@
       </div>
     </div>
    @endif
-@endsection
+
 @endsection
