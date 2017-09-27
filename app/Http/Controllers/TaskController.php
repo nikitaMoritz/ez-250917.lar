@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Repositories\TasksRepositories;
+use App\Repositories\TaskRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -13,7 +13,7 @@ class TaskController extends Controller {
      *
      * @return void
      */
-    public function __construct(askRepository $tasks) {
+    public function __construct(TaskRepository $tasks) {
         $this->middleware('auth');
         $this->tasks=$tasks;
     }
