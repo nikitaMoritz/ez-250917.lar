@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Repositories\TaskRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Task;
 
 class TaskController extends Controller {
+
     protected $tasks;
 
     /**
@@ -15,7 +18,7 @@ class TaskController extends Controller {
      */
     public function __construct(TaskRepository $tasks) {
         $this->middleware('auth');
-        $this->tasks=$tasks;
+        $this->tasks = $tasks;
     }
 
     /**
@@ -26,9 +29,9 @@ class TaskController extends Controller {
      */
     public function index(Request $request) {
         $tasks = $request->user()->tasks()->get();
-        return view('tasks.index',[
-            'tasks'=>$tasks,
-            ]);
+        return view('tasks.index', [
+            'tasks' => $tasks,
+        ]);
     }
 
     /**
@@ -46,6 +49,19 @@ class TaskController extends Controller {
             'name' => $request->name,
         ]);
 
+        return redirect('/tasks');
+    }
+
+    /**
+     * Уничтожить заданную задачу.
+     *
+     * @param  Request  $request
+     * @param  Task  $task
+     * @return Response
+     */
+    public function destroy(Request $request, Task $task) {
+        $this->authorize('destroy', $task);
+        $task->delete();
         return redirect('/tasks');
     }
 
